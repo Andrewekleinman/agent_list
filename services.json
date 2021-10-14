@@ -1,0 +1,20 @@
+{
+  "type": "service_account",
+  "project_number": "912671249160",
+  "firebase_url": "https://esdiacapp-59676-default-rtdb.firebaseio.com",
+  "storage_bucket": "esdiacapp-59676.appspot.com",
+  "mobilesdk_app_id": "1:912671249160:android:d6e5e84a434a6d1ff592bd",
+  "package_name": "com.esdiac.android",
+  "client_type": 3,
+  "current_key": "AIzaSyBBpTWCnzDZxBJv88hzhZ4wTUY_5WRIO_M",
+  "configuration_version": "1",
+  "project_id": "esdiacapp-59676",
+  "private_key_id": "759806cb90e476588a35cb61d250fefe0e2fa44e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDbJkx70qBR6sVA\nB8o1TMc7CZ6QPR1jEuGGcgFOcxD0YzVOnc9KhxeWCIcop8Gr9aDyOeAHFZHHdbLo\n36XyaxdR3i6CCcCMmg4ynfPvM2DAICbkrInhbzlcQW5Qw7JvWAtWgBEByyOTC8Rs\nPIROT/brtcNCqyIDTR40htvP5NiOBd+pPBmnsb2kYAF9olYx91pg9pCC+ORTSyRE\nFpIfMq5Vvv5yjakzB+DDeh11DBAnwvu5Jm6sj+y7la0iD37P3zWcx7IkPv665sJM\njMuywqCm0x/r991VHv1OA9QOPrvkDVShk5tw0tmya4yFfdf81qtj8UeSC9T1HCvv\nCgeHMTnZAgMBAAECggEACAi+SNNS1JH7b4KhmYTiMHJEtYPCECvk5/eFv/0kr9rz\nvTk4nGI5vYK8RsOorF/Vyc+QnJ3gMWxpldM+K5YcvZ/8O0D1hcoPj3A+PUSYTU7Y\nci13pBO+afkNnOkhwWZ8SuxowzSx7g4CQlgRHyhcFG3eVdM9jNquyuzvQc7BWCqC\nUxfg3lhfufyoi4u0B6vSgQTFo+ZWRmD4seDPWSspNaSi9i+pGtE3vgkxb2crr4ov\ncVIUyeiu/6yoCux4DdWvpch3rekrr1Zr0320vhnWCaiIvf/xIdVpHEhwq0UAdehR\nyioc/fKqpkJgT5dlTCEEkB8DUzmjpKKcqxur/4b2gQKBgQD397kRCTN/rkTIyXe3\nlmlKQxiqzOuVdrNElOX+rY5GdYRFwq+0A3NoN30UbHrRjRdHhbwisVWjnEJsfAqt\nHlcy/tRAO54Pg6l80uP3J6vohw43O8RsMn3XfxVw7U8IT6WTtQjS0O1Lm1XGl/pY\nJmu5nfSOv49MbJ4zpBEczDXQWQKBgQDiP5n4/79gYOiRGvX9MpQvKpVcFVY8f66T\nDQUbI0YKvs1nNVWtACF7zz3jL0Kq7g9X7YQLLF0SHh+Q30nMo9PLvzjoBOg0zjI9\nRFPl8eNOrhX6QIseXqcRMmdXDYaokyMFZcDT8GRJOgtIp6lPU/eA6J8HuU3x7AXN\nYgtMft2FgQKBgCZNOmXaQP0o4vEMxZQzBIJ3CLlhO8Zzdk9SnJARKNfTUSIhZ1hr\n7AieAZEFDJePrpfanWvSboL+IPh21INXG2sCF7DwRILq+GQSgynrE8+wBM8dSULZ\nLbz6oUo3Laz/+HhvTzSZFv5FuSMa2I2DKcKbFmpyRmUspeceIZKMLIfJAoGBAMir\nwNWpgQTq71xEnYpGIkjzbCaQhjyCw0SKd8zqLGW7dlPkamlXhFtcJXgrouYY4GMM\nt+FxJ9u5/CVy5vIrHN/Ka57fO1YazVSqFgAN258dqUCdnscBDQ2jtyTvSlCasKVI\n6w8QWOLaKMf4baN+xjgAG42uPgQlY8AXBg6DN9gBAoGBAM4dg6hjVUA0MVBxAOCm\nsxJ3RRx0ei6nDJBRYrOzfKKte5HA24L/F6aRjHy7Ajh9CAXpBmzF1J+x1hJoWRgH\nYZWz2bw0aFeRfEdHLFa1RE/C1HJxRZ8NosqW+DFaeUt1myh8rirQccZ8jlnnc3HV\nfLFBwEpbw5ReG0vetEpwvSQr\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-jrmut@esdiacapp-59676.iam.gserviceaccount.com",
+  "client_id": "112065064118173768904",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-jrmut%40esdiacapp-59676.iam.gserviceaccount.com"
+}

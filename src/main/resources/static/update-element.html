@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <title>Update Element</title>
+  <style>
+
+    #noID {
+      color: red;
+      display: none;
+    }
+    #addup {
+      display: none;
+    }
+    #error {
+      color: red;
+      display: none;
+    }
+
+    body {
+
+      padding-bottom: 40px;
+      background-color: #f5f5f5;
+    }
+    label{
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+    #Login{
+      alignment: right;
+    }
+    #descriptiondiv{
+      margin-left:-40px
+    }
+    #videodiv{
+      margin-left:+.35px
+    }
+    #titlediv{
+      margin-left:+12px
+    }
+    #iddiv{
+
+    }
+    #imagediv{
+      margin-left: -2px;
+    }
+    #idhere{
+      margin-left: +10px;
+    }
+
+    input[type=text], input[type=password] {
+      padding: 12px 20px;
+      margin: -1px 0;
+
+      border: 1px solid #d9d2d2;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #2e8fd9;
+      color: white;
+      width: 328px;
+      padding: 14px 20px;
+      margin: 10px 0;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+
+
+    .imgcontainer {
+      text-align: center;
+      margin: 24px 0 12px 0;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="px-4 py-2 bg-dark text-white">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+          <img align="left" width="70" height="70" src="logo_white.png" alt="logo"><svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
+        </a>
+        <ul id="icons" class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+          <li>
+            <a href="#" class="nav-link text-white">
+              <img class="bi d-block mx-auto mb-1" src="home.png" width="38" height="24"><use xlink:href="#home"/></img>
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link text-white">
+              <img class="bi d-block mx-auto mb-1" src="dashboard.png" width="28" height="24"><use xlink:href="#speedometer2"/></img>
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="javascript:logout()" class="nav-link text-white">
+              <img class="bi d-block mx-auto mb-1" src="logout.png" width="24" height="24"></img>
+              Logout
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+<center>
+  <br>
+  <div id="Login" class="Login">
+    <h2 style="text-align:center" >Alter Database</h2>
+    <div id="addup">The database has been updated</div>
+    <div id="noID">Please enter ID</div>
+
+    <br>
+    <div id="iddiv">ID: <a id="idhere">ID goes here</a></div>
+
+
+    <div id="titlediv">Title: <input id="Title" type="text" v-model = "input.Title" size="35" placeholder="Enter Title" required></div>
+    <div id="descriptiondiv">Description: <input id="Description" type="text" v-model = "input.Description" size="35" placeholder="Enter Description" required></div>
+    <div id="imagediv">Image: <input id="Image" type="text" v-model = "input.Image" size="35" placeholder="Enter Image" required></div>
+    <div id="videodiv">Video: <input id="Video" type="text" v-model = "input.Video" size="35" placeholder="Enter Video" required></div>
+    <br>
+    <button id="submit" type="button" class="btn btn-dark">Submit Change</button>
+    <br><br>
+    &copy; 2021 ESDIAC APP - All Rights Reserved
+
+  </div>
+</center>
+<?php
+  $say = htmlspecialchars($_POST['say']);
+  $to  = htmlspecialchars($_POST['to']);
+
+  echo  $say, ' ', $to;
+?>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.1/firebase-app.js";
+  import { getFirestore, doc, getDoc, deleteDoc, setDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.0.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDidtDY_v7Orrs_qgRKsx4hXH2RKqy1LrI",
+    authDomain: "esdiacapp-59676.firebaseapp.com",
+    databaseURL: "https://esdiacapp-59676-default-rtdb.firebaseio.com",
+    projectId: "esdiacapp-59676",
+    storageBucket: "esdiacapp-59676.appspot.com",
+    messagingSenderId: "912671249160",
+    appId: "1:912671249160:web:79bb016c094ee0cef592bd",
+    measurementId: "G-5SY5TLJC8Q"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app)
+
+  const params = new URLSearchParams(document.location.search);
+  const id = params.get("id");
+  document.getElementById("idhere").innerHTML=id;
+  const title = params.get("title")
+  document.getElementById("Title").value = title;
+  const description = params.get("description")
+  document.getElementById("Description").value = description;
+  const image = params.get("image")
+  document.getElementById("Image").value = image;
+  const video = params.get("video")
+  document.getElementById("Video").value = video;
+
+  export async function makeChange() {
+    document.getElementById('addup').style.display = "block"
+    setTimeout(function(){
+      document.getElementById('addup').style.display = "none"
+    }, 3000);
+    await setDoc(doc(db, "test-news", id), {
+      id: id,
+      title: document.getElementById("Title").value,
+      description: document.getElementById("Description").value,
+      image: document.getElementById("Image").value,
+      video: document.getElementById("Video").value,
+    });
+    window.location='content-list.html';
+
+  }
+  document.querySelector('#submit').addEventListener('click', makeChange)
+</script>
+
+</body>
+</html>
