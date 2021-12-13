@@ -29,7 +29,7 @@ public class NewsInterface {
 	public static void getData() throws IOException {
 		//get token
 		String command =
-				"curl voip.ml:2432/login -X POST -d {\"username\":\"admin\",\"password\":\"f7pwMk01sYxRN2dR\"} -s | jq";
+				"curl voip.ml:2432/login -X POST -d {\"username\":\"\",\"password\":\"\"} -s | jq";
 		ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
 		JSONObject jsonObject = process(processBuilder.start());
 		String token = (jsonObject.getJSONObject("data").getString("token"));
@@ -62,7 +62,7 @@ public class NewsInterface {
 
 	public static JSONObject sendData(Agent agent) throws IOException {
 		String command =
-				"curl voip.ml:2432/login -X POST -d {\"username\":\"admin\",\"password\":\"f7pwMk01sYxRN2dR\"} -s | jq";
+				"curl voip.ml:2432/login -X POST -d {\"username\":\"\",\"password\":\"\"} -s | jq";
 		ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
 		JSONObject jsonObject = process(processBuilder.start());
 		String token = (jsonObject.getJSONObject("data").getString("token"));
