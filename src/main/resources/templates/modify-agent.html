@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <title>Modify Agent</title>
+        <style>
+            body {
+                padding-bottom: 40px;
+                background-color: #f5f5f5;
+            }
+            label{
+                margin-top: 10px;
+                margin-bottom: 20px;
+            }
+            input[type=text], input[type=password] {
+                padding: 12px 20px;
+                margin: -1px 0;
+                border: 1px solid #d9d2d2;
+                box-sizing: border-box;
+            }
+            #Imagediv{
+                margin-top: 3px;
+                margin-bottom: -7px;
+                margin-left: 120px;
+            }
+            #Image{
+                margin-left: 6px;
+            }
+            #errorMessage{
+                color: red;
+                margin-bottom: 4px;
+            }
+            button {
+                background-color: #2e8fd9;
+                color: white;
+                width: 328px;
+                padding: 14px 20px;
+                margin: 10px 0;
+                border: none;
+                cursor: pointer;
+            }
+            h3{
+                color: red;
+            }
+            button:hover {
+                opacity: 0.8;
+            }
+        </style>
+        <meta name="theme-color" content="#7952b3">
+    </head>
+    <body>
+        <div class="px-4 py-2 bg-dark text-white">
+            <div class="container d-flex">
+                <a href="/Agents" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                    <img align="left" width="70" height="70"  src="/logo_white.png" alt="logo"><svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
+                </a>
+            </div>
+        </div>
+        <center>
+            <br>
+            <div id="Login" class="Login">
+
+                <h2 style="text-align:center">Add Agent</h2><br>
+                <div id="errorMessage" th:if="${message != null}" th:text="${message}" style="text-align: center"></div>
+                <form name="editor" method="post" action="/Agents/modify" enctype="multipart/form-data">
+                    <input id="Name" th:name="Name" type="text" v-model = "input.Name" size="35" placeholder="Enter Name"  th:value="*{agent.name}"><br>
+                    <div id="imagedisplay" th:if="${agent.hasPic}"><img class="bi d-block mx-auto mb-1" th:src="'/images/' + ${agent.promoCode}" height="200px"></div>
+                    <div id="Imagediv"> <label for="Image">Select image: </label><input type="file" th:name="Image" id="Image" name="Image" th:value="*{agent.image}" accept="image/*"></div>
+                    <input id="PromoCode" th:name="PromoCode" type="text" v-model = "input.PromoCode" size="35" placeholder="Enter Promo Code" th:value="*{agent.promoCode}" pattern="[a-Z0-9]" required><br>
+                    <input id="TelephoneNumber" th:name="TelephoneNumber" type="text" v-model = "input.TelephoneNumber" size="35" placeholder="Enter Telephone Number" th:value="*{agent.telephoneNumber}"><br>
+                    <input id="Region" th:name="Region" type="text" v-model = "input.Region" size="35" placeholder="Enter Region" th:value="*{agent.region}"><br>
+                    <input id="Email" th:name="Email" type="text" v-model = "input.Email" size="35" placeholder="Enter Email" th:value="*{agent.email}"><br><br>
+                    <button id="submit" type="button submit" value="upload" class="btn btn-dark">Submit Change</button>
+                </form>
+                <br>
+                &copy; 2021 ESDIAC APP - All Rights Reserved
+            </div>
+        </center>
+    </body>
+</html>

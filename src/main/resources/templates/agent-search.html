@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+    <head><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <title>View Agents</title>
+        <style>
+            button:hover {
+                background-color: #4CAF50;
+                color:white;
+                opacity: 0.8;
+            }
+            button {
+                background-color:white;
+                border: none;
+                color: #4CAF50;
+            }
+            #myPager {
+                width: 10px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            #namePager {
+                width: 10px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            #phonePager {
+                width: 10px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            #emailPager {
+                width: 10px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        </style>
+        <script>
+            $.fn.pageMe = function(opts){
+                var $this = this,
+                    defaults = {
+                        perPage: 20,
+                        showPrevNext: false,
+                        hidePageNumbers: true
+                    },
+                    settings = $.extend(defaults, opts);
+                var listElement = $this;
+                var perPage = 10;
+                var children = listElement.children();
+                var pager = $('.pager');
+                if (typeof settings.childSelector!="undefined") {
+                    children = listElement.find(settings.childSelector);
+                }
+                if (typeof settings.pagerSelector!="undefined") {
+                    pager = $(settings.pagerSelector);
+                }
+                var numItems = children.size();
+                var numPages = Math.ceil(numItems/perPage);
+                pager.data("curr",0);
+                if (settings.showPrevNext){
+                    $('<li><a href="#" class="prev_link"><button onclick="window.location.href=\'#\'" class="prev_link">«</button></a></li>').appendTo(pager);
+                }
+                var curr = 0;
+                while(numPages > curr && (settings.hidePageNumbers==false)){
+                    $('<li><a href="#" class="page_link"><button onclick="window.location.href=\'#\'" class="page_link">'+(curr+1)+'</button></a></li>').appendTo(pager);
+                    curr++;
+                }
+                if (settings.showPrevNext){
+                    $('<li><a href="#" class="next_link"><button onclick="window.location.href=\'#\'" class="next_link">»</button></a></li>').appendTo(pager);
+                }
+                pager.find('.page_link:first').addClass('active');
+                pager.find('.prev_link').hide();
+                if (numPages<=1) {
+                    pager.find('.next_link').hide();
+                }
+                pager.children().eq(1).addClass("active");
+                children.hide();
+                children.slice(0, perPage).show();
+                pager.find('li .page_link').click(function(){
+                    var clickedPage = $(this).html().valueOf()-1;
+                    goTo(clickedPage,perPage);
+                    return false;
+                });
+                pager.find('li .prev_link').click(function(){
+                    previous();
+                    return false;
+                });
+                pager.find('li .next_link').click(function(){
+                    next();
+                    return false;
+                });
+                function previous(){
+                    var goToPage = parseInt(pager.data("curr")) - 1;
+                    goTo(goToPage);
+                }
+                function next(){
+                    goToPage = parseInt(pager.data("curr")) + 1;
+                    goTo(goToPage);
+                }
+                function goTo(page){
+                    var startAt = page * perPage,
+                        endOn = startAt + perPage;
+                    children.css('display','none').slice(startAt, endOn).show();
+                    if (page>=1) {
+                        pager.find('.prev_link').show();
+                    }
+                    else {
+                        pager.find('.prev_link').hide();
+                    }
+                    if (page<(numPages-1)) {
+                        pager.find('.next_link').show();
+                    }
+                    else {
+                        pager.find('.next_link').hide();
+                    }
+                    pager.data("curr",page);
+                    pager.children().removeClass("active");
+                    pager.children().eq(page+1).addClass("active");
+                }
+            };
+            $(document).ready(function(){
+                $('#myTable').pageMe({pagerSelector:'#myPager',showPrevNext:true,hidePageNumbers:false,perPage:4});
+                $('#nameTable').pageMe({pagerSelector:'#namePager',showPrevNext:true,hidePageNumbers:false,perPage:4});
+                $('#phoneTable').pageMe({pagerSelector:'#phonePager',showPrevNext:true,hidePageNumbers:false,perPage:4});
+                $('#emailTable').pageMe({pagerSelector:'#emailPager',showPrevNext:true,hidePageNumbers:false,perPage:4});
+            });
+        </script>
+    </head>
+    <body>
+        <div class="px-4 py-2 bg-dark text-white">
+            <div class="container d-flex">
+                <a href="/Agents" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                    <img align="left" width="70" height="70"  src="/logo_white.png" alt="logo">
+                </a>
+                <ul id="icons" class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                    <a href="/Agents" class="nav-link text-white">
+                        <img class="bi d-block mx-auto mb-1" src="/home.png" width="38" height="24">
+                        Home
+                    </a>
+                    <a href="/Agents/dashboard" class="nav-link text-white">
+                        <img class="bi d-block mx-auto mb-1" src="/dashboard.png" width="28" height="24">
+                        Dashboard
+                    </a>
+                    <a href="/Agents" class="nav-link text-white">
+                        <img class="bi d-block mx-auto mb-1" src="/logout.png" width="24" height="24">
+                        Logout
+                    </a>
+                </ul>
+            </div>
+        </div>
+        <div th:if="${SearchNames.size() <= 0 && SearchPhones.size() <= 0 && SearchEmails.size() <= 0 && SearchPromos.size() <= 0}">
+            <br><br>
+            <h1 style="text-align:center">No Matches Found</h1>
+        </div>
+        <div th:if="${SearchNames.size() > 0}">
+            <h1 style="text-align:center" >Matches for Name</h1>
+            <br>
+            <div class="row">
+                <div class="table-responsive">
+            <table class="table table-bordered" border="5" id = dataTable>
+                <thead style="background-color:black">
+                    <tr>
+                        <th style="text-align:center"><span style="color: white">STATUS</span></th>
+                        <th style="text-align:center"><span style="color: white">NAME</span></th>
+                        <th style="text-align:center"><span style="color: white">PROMO CODE</span></th>
+                        <th style="text-align:center"><span style="color: white">TELEPHONE NUMBER</span></th>
+                        <th style="text-align:center"><span style="color: white">REGION</span></th>
+                        <th style="text-align:center"><span style="color: white">EMAIL</span></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="nameTable">
+                    <tr th:each="prod : ${SearchNames}" >
+                        <td align='center' th:text="${prod.status}"/>
+                        <td align='center' th:text="${prod.name}"/>
+                        <td align='center' th:text="${prod.promoCode}"/>
+                        <td align='center' th:text="${prod.telephoneNumber}"/>
+                        <td align='center' th:text="${prod.region}"/>
+                        <td align='center' th:text="${prod.email}"/>
+                        <td align="center"><a th:href="@{'/Agents/' + ${prod.promoCode}}"><button>View Agent</button></a></td>
+<!--                        <td align="center"><a th:href="@{'/Agents/modify/' + ${prod.promoCode}}"><button>Modify Agent</button></a></td>-->
+                    </tr>
+                </tbody>
+            </table>
+                    <div>
+                        <ul class="pagination pagination-lg pager" id="namePager"></ul>
+                    </div>
+                </div></div>
+        </div>
+        <div th:if="${SearchPhones.size() > 0}">
+            <h1 style="text-align:center" >Matches for Telephone Number</h1>
+            <br>
+            <div class="row">
+                <div class="table-responsive">
+            <table class="table table-bordered" border="5" id = dataTable>
+                <thead style="background-color:black">
+                <tr>
+                    <th style="text-align:center"><span style="color: white">STATUS</span></th>
+                    <th style="text-align:center"><span style="color: white">NAME</span></th>
+                    <th style="text-align:center"><span style="color: white">PROMO CODE</span></th>
+                    <th style="text-align:center"><span style="color: white">TELEPHONE NUMBER</span></th>
+                    <th style="text-align:center"><span style="color: white">REGION</span></th>
+                    <th style="text-align:center"><span style="color: white">EMAIL</span></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="phoneTable">
+                <tr th:each="prod : ${SearchPhones}" >
+                    <td align='center' th:text="${prod.status}"/>
+                    <td align='center' th:text="${prod.name}"/>
+    <!--                <td align='center' th:text="${prod.image}"/>-->
+                    <td align='center' th:text="${prod.promoCode}"/>
+                    <td align='center' th:text="${prod.telephoneNumber}"/>
+                    <td align='center' th:text="${prod.region}"/>
+                    <td align='center' th:text="${prod.email}"/>
+                    <td align="center"><a th:href="@{'/Agents/' + ${prod.promoCode}}"><button>View Agent</button></a></td>
+<!--                    <td align="center"><a th:href="@{'/Agents/modify/' + ${prod.promoCode}}"><button>Modify Agent</button></a></td>-->
+                </tr>
+                </tbody>
+            </table>
+                    <div>
+                        <ul class="pagination pagination-lg pager" id="phonePager"></ul>
+                    </div>
+                </div></div>
+        </div>
+        <div th:if="${SearchEmails.size() > 0}">
+            <h1 style="text-align:center" >Matches for Email</h1>
+            <br>
+            <div class="row">
+                <div class="table-responsive">
+            <table class="table table-bordered" border="5" id = dataTable>
+                <thead style="background-color:black">
+                <tr>
+                    <th style="text-align:center"><span style="color: white">STATUS</span></th>
+                    <th style="text-align:center"><span style="color: white">NAME</span></th>
+                    <th style="text-align:center"><span style="color: white">PROMO CODE</span></th>
+                    <th style="text-align:center"><span style="color: white">TELEPHONE NUMBER</span></th>
+                    <th style="text-align:center"><span style="color: white">REGION</span></th>
+                    <th style="text-align:center"><span style="color: white">EMAIL</span></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="emailTable">
+                <tr th:each="prod : ${SearchEmails}" >
+                    <td align='center' th:text="${prod.status}"/>
+                    <td align='center' th:text="${prod.name}"/>
+                    <td align='center' th:text="${prod.promoCode}"/>
+                    <td align='center' th:text="${prod.telephoneNumber}"/>
+                    <td align='center' th:text="${prod.region}"/>
+                    <td align='center' th:text="${prod.email}"/>
+                    <td align="center"><a th:href="@{'/Agents/' + ${prod.promoCode}}"><button>View Agent</button></a></td>
+<!--                    <td align="center"><a th:href="@{'/Agents/modify/' + ${prod.promoCode}}"><button>Modify Agent</button></a></td>-->
+                </tr>
+                </tbody>
+            </table>
+                    <div>
+                        <ul class="pagination pagination-lg pager" id="emailPager"></ul>
+                    </div>
+                </div></div>
+        </div>
+        <div th:if="${SearchPromos.size() > 0}">
+            <h1 style="text-align:center" >Matches for Promo Code</h1>
+            <br>
+            <div class="row">
+                <div class="table-responsive">
+            <table class="table table-bordered" border="5" id = dataTable>
+                <thead style="background-color:black">
+                <tr>
+                    <th style="text-align:center"><span style="color: white">STATUS</span></th>
+                    <th style="text-align:center"><span style="color: white">NAME</span></th>
+                    <th style="text-align:center"><span style="color: white">PROMO CODE</span></th>
+                    <th style="text-align:center"><span style="color: white">TELEPHONE NUMBER</span></th>
+                    <th style="text-align:center"><span style="color: white">REGION</span></th>
+                    <th style="text-align:center"><span style="color: white">EMAIL</span></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="myTable">
+                <tr th:each="prod : ${SearchPromos}" >
+                    <td align='center' th:text="${prod.status}"/>
+                    <td align='center' th:text="${prod.name}"/>
+                    <td align='center' th:text="${prod.promoCode}"/>
+                    <td align='center' th:text="${prod.telephoneNumber}"/>
+                    <td align='center' th:text="${prod.region}"/>
+                    <td align='center' th:text="${prod.email}"/>
+                    <td align="center"><a th:href="@{'/Agents/' + ${prod.promoCode}}"><button>View Agent</button></a></td>
+<!--                    <td align="center"><a th:href="@{'/Agents/modify/' + ${prod.promoCode}}"><button>Modify Agent</button></a></td>-->
+                </tr>
+                </tbody>
+            </table>
+                    <div>
+                        <ul class="pagination pagination-lg pager" id="myPager"></ul>
+                    </div>
+                </div></div>
+        </div>
+    </body>
+</html>

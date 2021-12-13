@@ -1,128 +1,75 @@
-
 package com.example.demo;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.firestore.*;
-import com.google.cloud.firestore.EventListener;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.cloud.FirestoreClient;
-import com.google.firebase.database.annotations.Nullable;
-import lombok.SneakyThrows;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import org.springframework.web.multipart.MultipartFile;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
 @Configuration
 @SpringBootApplication
 @RestController
 public class NewsInterface {
 
-	static FirebaseApp app;
-	static Firestore db;
-	static Map<String, News> contents;
+	//private static long initTime = System.currentTimeMillis();
+	public static ArrayList<Agent> users = new ArrayList<>();
+	//public static ArrayList<Agent> additionalUsers = new ArrayList<>();
+	//public static MultipartFile file;
 
-//	private static final String[] CLASSPATH_RESOURCE_LOCATIONS =
-//			{
-//					"classpath:/META-INF/resources/",
-//					"classpath:/resources/",
-//					"classpath:/static/",
-//					"classpath:/public/",
-//					"classpath:/custom/",
-//					"file:/opt/myfiles/"
-//			};
-//
-//	@Override
-//	public void addResourceHandlers(ResourceHandlerRegistry registry)
-//	{
-//		registry.addResourceHandler("/**")
-//				.addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS)
-//				.setCachePeriod(3000);
-//	}
-
-	public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-		FileInputStream refreshToken = new FileInputStream("./services.json");
-		FirebaseOptions options = FirebaseOptions.builder()
-				.setCredentials(GoogleCredentials.fromStream(refreshToken))
-				.setDatabaseUrl("https://esdiacapp-59676-default-rtdb.firebaseio.com/")
-				.setProjectId("esdiacapp-59676")
-				.build();
-
-		app = FirebaseApp.initializeApp(options);
-		db = FirestoreClient.getFirestore();
-
-		contents = new HashMap<String, News>();
-		loadInformation();
+	public static void main(String[] args) throws IOException {
 		SpringApplication.run(NewsInterface.class, args);
 	}
 
-	@GetMapping(
-			value = "/homeimage",
-			produces = MediaType.IMAGE_JPEG_VALUE
-	)
-	public @ResponseBody byte[] getHomeImage() throws IOException {
-		InputStream in = getClass()
-				.getResourceAsStream("/com/example/demo/home.png");
-		return in.readAllBytes();
-	}
-	@GetMapping(
-			value = "/logoutimage",
-			produces = MediaType.IMAGE_JPEG_VALUE
-	)
-	public @ResponseBody byte[] getLogoutImage() throws IOException {
-		InputStream in = getClass()
-				.getResourceAsStream("/com/example/demo/logout.png");
-		return in.readAllBytes();
-	}
-	@GetMapping(
-			value = "/logowhiteimage",
-			produces = MediaType.IMAGE_JPEG_VALUE
-	)
-	public @ResponseBody byte[] getLogoWhiteImage() throws IOException {
-		InputStream in = getClass()
-				.getResourceAsStream("/com/example/demo/logo_white.png");
-		return in.readAllBytes();
-	}
-	@GetMapping(
-			value = "/dashboardimage",
-			produces = MediaType.IMAGE_JPEG_VALUE
-	)
-	public @ResponseBody byte[] getDashboardImage() throws IOException {
-		InputStream in = getClass()
-				.getResourceAsStream("/com/example/demo/dashboard.png");
-		return in.readAllBytes();
+	public static void getData() throws IOException {
+		//get token
+		String command =
+				"curl voip.ml:2432/login -X POST -d {\"username\":\"admin\",\"password\":\"f7pwMk01sYxRN2dR\"} -s | jq";
+		ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
+		JSONObject jsonObject = process(processBuilder.start());
+		String token = (jsonObject.getJSONObject("data").getString("token"));
+
+		//use token to populate array of agents
+		processBuilder.command(
+				new String[]{"curl", "voip.ml:2432/users", "-H", "Authorization: Bearer "+token});
+		jsonObject = process(processBuilder.start());
+		JSONArray arr = jsonObject.getJSONObject("data").getJSONArray("result");
+		ArrayList<Agent>  users= new ArrayList<>();
+		for(int i = 0; i< arr.length();i++){
+			JSONObject obj = (JSONObject) arr.get(i);
+			//byte[] image = null;
+			Agent thisAgent = new Agent(null,obj.getString("FirstName"),null,obj.getString("PromoCode"),obj.getString("Username"),obj.getString("CountryId"),obj.getString("Email"));
+			users.add(thisAgent);
+		}
+//		users.addAll(additionalUsers);
+		NewsInterface.users = users;
 	}
 
-	public static void loadInformation() {
+	public static JSONObject process(Process process) throws IOException {
+		InputStream inputStream = process.getInputStream();
+		BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+		StringBuilder responseStrBuilder = new StringBuilder();
+		String inputStr;
+		while ((inputStr = streamReader.readLine()) != null)
+			responseStrBuilder.append(inputStr);
+		return new JSONObject(responseStrBuilder.toString());
+	}
 
-		Query query = db.collection("test-news")
-				.whereNotEqualTo("id", null)
-				.orderBy("id");
-		query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-			@SneakyThrows
-			@Override
-			public void onEvent(@Nullable QuerySnapshot snapshots,
-								@Nullable FirestoreException e) {
+	public static JSONObject sendData(Agent agent) throws IOException {
+		String command =
+				"curl voip.ml:2432/login -X POST -d {\"username\":\"admin\",\"password\":\"f7pwMk01sYxRN2dR\"} -s | jq";
+		ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
+		JSONObject jsonObject = process(processBuilder.start());
+		String token = (jsonObject.getJSONObject("data").getString("token"));
 
-				for(DocumentChange snap : snapshots.getDocumentChanges()){
-					if(snap.getType() == DocumentChange.Type.REMOVED){
-						contents.remove(snap.getDocument().getString("id"));
-					}
-					else {
-						contents.put(snap.getDocument().getString("id"),(new News(snap.getDocument().getString("id"),snap.getDocument().getString("title"),snap.getDocument().getString("description"),snap.getDocument().getString("image"),snap.getDocument().getString("video"))));
-					}
-				}
-			}
-		});
+		processBuilder.command(
+				new String[]{"curl", "voip.ml:2432/users", "-X", "POST", "-d", "{\"CountryId\":\""+agent.getRegion()+"\",\"Status\":\"active\",\"Email\":\""+agent.getEmail()+"\",\"PromoCode\":\""+agent.getPromoCode()+"\",\"FirstName\":\""+agent.getName()+"\",\"Role\":\"agent\",\"Username\":\""+ agent.getTelephoneNumber()+"\",\"ID\":25,\"LastName\":\""+agent.getName()+"\",\"Password\":\"213ThisUserwasMadeWithoutAPassword4\",\"Image\":\""+"yes"+"\"}", "-H", "Authorization: Bearer "+token, "-s", "|", "jq"});
+		jsonObject = process(processBuilder.start());
+		return (jsonObject);
 	}
 }
-
-

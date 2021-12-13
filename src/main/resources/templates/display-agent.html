@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+    <head><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <title th:text="'view ' + ${agent.name}">Agent</title>
+        <style>
+            body {
+                padding-bottom: 40px;
+                background-color: #f5f5f5;
+            }
+            #telephonediv{
+                margin-left:-50px
+            }
+            #promodiv{
+                margin-left:-2px
+            }
+            #regiondiv{
+                margin-left:+38px
+            }
+            #imagediv{
+                margin-bottom: 10px;
+            }
+            #statusdiv{
+                margin-left: 42px;
+            }
+            #emaildiv{
+                margin-left: 49px;
+            }
+            #namediv{
+                margin-left: 46px;
+            }
+            *:focus {
+                outline: none;
+            }
+            input[type=text], input[type=password] {
+                padding: 12px 20px;
+                margin: -1px 0;
+                border: 1px solid #d9d2d2;
+                box-sizing: border-box;
+            }
+            button {
+                background-color: #2e8fd9;
+                color: white;
+                width: 328px;
+                padding: 14px 20px;
+                margin: 10px 0;
+                border: none;
+            }
+            button:hover {
+                opacity: 0.8;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="px-4 py-2 bg-dark text-white">
+            <div class="container d-flex">
+                <a href="/Agents" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                    <img align="left" width="70" height="70"  src="/logo_white.png" alt="logo">
+                </a>
+                <ul id="icons" class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                    <a href="/Agents" class="nav-link text-white">
+                        <img class="bi d-block mx-auto mb-1" src="/home.png" width="38" height="24">
+                        Home
+                    </a>
+                    <a href="/Agents/dashboard" class="nav-link text-white">
+                        <img class="bi d-block mx-auto mb-1" src="/dashboard.png" width="28" height="24">
+                        Dashboard
+                    </a>
+                    <a href="/Agents" class="nav-link text-white">
+                        <img class="bi d-block mx-auto mb-1" src="/logout.png" width="24" height="24">
+                        Logout
+                    </a>
+                </ul>
+            </div>
+        </div>
+        <center>
+            <br>
+            <div id="Login" class="Login">
+                <h2 style="text-align:center" >Display Agent</h2><br>
+                <form name="editor" method="post" action="/Agents">
+                    <div id="imagediv" th:if="${agent.hasPic}"><img class="bi d-block mx-auto mb-1" th:src="'/images/' + ${agent.promoCode}" height="200px"></div>
+                    <div id="statusdiv">Status: <input id="Status" readonly th:name="Status" type="text" size="35" placeholder="" th:value="${agent.status}"></div>
+                    <div id="namediv">Name: <input id="Name" readonly th:name="Name" type="text" size="35" placeholder="" th:value="${agent.name}"></div>
+                    <div id="promodiv">Promo Code: <input id="Promo" readonly th:name="Promo" type="text" size="35" placeholder="" th:value="${agent.promoCode}"></div>
+                    <div id="telephonediv">Telephone Number: <input id="Telephone" readonly type="text" th:name="Telephone" size="35" placeholder="" th:value="${agent.telephoneNumber}"></div>
+                    <div id="regiondiv">Region: <input id="Region" type="text" readonly th:name="Region" size="35" placeholder="" th:value="${agent.region}"></div>
+                    <div id="emaildiv">Email: <input id="Email" type="text" readonly th:name="Email" size="35" placeholder="" th:value="${agent.email}"></div><br>
+                </form><br>
+                &copy; 2021 ESDIAC APP - All Rights Reserved
+            </div>
+        </center>
+    </body>
+</html>
