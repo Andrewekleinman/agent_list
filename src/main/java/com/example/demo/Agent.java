@@ -1,9 +1,7 @@
 package com.example.demo;
 
 import org.springframework.web.multipart.MultipartFile;
-import javax.imageio.ImageIO;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 
 public class Agent {
     public MultipartFile image;
@@ -15,16 +13,16 @@ public class Agent {
     public byte[] pic;
     public boolean hasPic;
     public String status;
+    public String identifier;
 
-    public Agent(String status, String name, String hasPic, String promoCode, String telephoneNumber, String region, String email){
+    public Agent(String status, String name, String hasPic, String promoCode, String telephoneNumber, String region, String email,String ID){
         this.name=name;
         this.status = status;
-//        System.out.println(hasPic);
-//        this.hasPic=hasPic.equals("yes");
         this.promoCode=promoCode;
         this.telephoneNumber=telephoneNumber;
         this.region=region;
         this.email = email;
+        this.identifier = ID;
     }
 
     public Agent() {
@@ -89,5 +87,13 @@ public class Agent {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String ID) {
+        this.identifier = ID;
     }
 }

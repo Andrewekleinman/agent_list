@@ -78,15 +78,19 @@
             <br>
             <div id="Login" class="Login">
                 <h2 style="text-align:center" >Display Agent</h2><br>
-                <form name="editor" method="post" action="/Agents">
+                <form name="editor" method="post" action="/Agents/update" enctype="multipart/form-data">
                     <div id="imagediv" th:if="${agent.hasPic}"><img class="bi d-block mx-auto mb-1" th:src="'/images/' + ${agent.promoCode}" height="200px"></div>
-                    <div id="statusdiv">Status: <input id="Status" readonly th:name="Status" type="text" size="35" placeholder="" th:value="${agent.status}"></div>
-                    <div id="namediv">Name: <input id="Name" readonly th:name="Name" type="text" size="35" placeholder="" th:value="${agent.name}"></div>
-                    <div id="promodiv">Promo Code: <input id="Promo" readonly th:name="Promo" type="text" size="35" placeholder="" th:value="${agent.promoCode}"></div>
+                    <div id="Imagediv2"> <label for="Image">Select image: </label><input type="file" th:name="Image" id="Image" name="Image" th:value="${agent.Image}" accept="image/*"></div>
+                    <div id="iddiv" hidden>Identifier: <input id="identifier" readonly th:name="identifier" type="text" size="35" placeholder="" th:value="${agent.identifier}"></div>
+                    <div id="statusdiv">Status: <input id="Status" th:name="Status" type="text" size="35" placeholder="" th:value="${agent.status}"></div>
+                    <div id="namediv">Name: <input id="Name" th:name="Name" type="text" size="35" placeholder="" th:value="${agent.name}"></div>
+                    <div id="promodiv">Promo Code: <input id="promoCode" readonly th:name="promoCode" type="text" size="35" placeholder="" th:value="${agent.promoCode}"></div>
                     <div id="telephonediv">Telephone Number: <input id="Telephone" readonly type="text" th:name="Telephone" size="35" placeholder="" th:value="${agent.telephoneNumber}"></div>
-                    <div id="regiondiv">Region: <input id="Region" type="text" readonly th:name="Region" size="35" placeholder="" th:value="${agent.region}"></div>
-                    <div id="emaildiv">Email: <input id="Email" type="text" readonly th:name="Email" size="35" placeholder="" th:value="${agent.email}"></div><br>
-                </form><br>
+                    <div id="regiondiv">Region: <input id="Region" type="text" th:name="Region" size="35" placeholder="" th:value="${agent.region}"></div>
+                    <div id="emaildiv">Email: <input id="Email" type="text" th:name="Email" size="35" placeholder="" th:value="${agent.email}"></div><br>
+                    <button  id="searchSubmit" type="button submit" class="btn btn-dark">Update Agent</button>
+                </form>
+                <br>
                 &copy; 2021 ESDIAC APP - All Rights Reserved
             </div>
         </center>
