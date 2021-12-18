@@ -64,7 +64,6 @@
                 <h2 style="text-align:center">Add Agent</h2><br>
                 <div id="errorMessage" th:if="${message != null}" th:text="${message}" style="text-align: center"></div>
                 <form name="editor" method="post" action="/Agents/new" enctype="multipart/form-data">
-                    <input id="Status" th:name="Status" type="text" v-model = "input.Status" size="35" placeholder="Enter Status"  th:value="*{Status}"><br>
                     <input id="Name" th:name="Name" type="text" v-model = "input.Name" size="35" placeholder="Enter Name"  th:value="*{Name}"><br>
                     <div id="Imagediv"> <label for="Image">Select image: </label><input type="file" th:name="Image" id="Image" name="Image" th:value="*{Image}" accept="image/*"></div>
                     <input id="PromoCode" th:name="PromoCode" type="text" v-model = "input.PromoCode" size="35" placeholder="Enter Promo Code" th:value="*{PromoCode}" pattern="[a-Z0-9]" required><br>

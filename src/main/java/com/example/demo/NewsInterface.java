@@ -59,7 +59,7 @@ public class NewsInterface {
 		JSONObject jsonObject = process(processBuilder.start());
 		String token = (jsonObject.getJSONObject("data").getString("token"));
 		processBuilder.command(
-				new String[]{"curl", "voip.ml:2432/users", "-X", "POST", "-d", "{\"CountryId\":\""+agent.getRegion()+"\",\"Status\":\""+agent.getStatus()+"\",\"Email\":\""+agent.getEmail()+"\",\"PromoCode\":\""+agent.getPromoCode()+"\",\"FirstName\":\""+agent.getName()+"\",\"Role\":\"agent\",\"Username\":\""+ agent.getTelephoneNumber()+"\",\"ID\":25,\"LastName\":\""+agent.getName()+"\",\"Password\":\"213ThisUserwasMadeWithoutAPassword4\",\"Image\":\""+"yes"+"\"}", "-H", "Authorization: Bearer "+token, "-s", "|", "jq"});
+				new String[]{"curl", "voip.ml:2432/users", "-X", "POST", "-d", "{\"CountryId\":\""+agent.getRegion()+"\",\"Status\":\""+agent.getStatus()+"\",\"Email\":\""+agent.getEmail()+"\",\"PromoCode\":\""+agent.getPromoCode()+"\",\"FirstName\":\""+agent.getName()+"\",\"Role\":\"agent\",\"Username\":\""+ agent.getTelephoneNumber()+"\",\"ID\":25,\"LastName\":\""+agent.getName()+"\",\"Password\":\"213ThisUserwasMadeWithoutAPassword4\",\"Image\":\""+(agent.pic != null ? agent.pic.toString() : "")+"\"}", "-H", "Authorization: Bearer "+token, "-s", "|", "jq"});
 		jsonObject = process(processBuilder.start());
 		return (jsonObject);
 	}
