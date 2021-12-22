@@ -24,7 +24,7 @@ public class ImageHandler {
             while ((read = inputStream.read(bytes)) != -1) {
                 outputStream.write(bytes, 0, read);
             }
-        } catch (IOException e) {
+         } catch (IOException e) {
             e.printStackTrace();
         }
         return newFile.getAbsolutePath();
