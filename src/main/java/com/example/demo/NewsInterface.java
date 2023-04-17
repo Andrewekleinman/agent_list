@@ -23,7 +23,7 @@ public class NewsInterface {
 	public static void getData() throws IOException {
 		//get token
 		String command =
-				"curl voip.ml:2432/login -X POST -d {\"username\":\"admin\",\"password\":\"f7pwMk01sYxRN2dR\"} -s | jq";
+				"curl voip.ml:2432/login -X POST -d {\"username\":\"admin\",\"password\":\"******************\"} -s | jq";
 		ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
 		JSONObject jsonObject = process(processBuilder.start());
 		String token = (jsonObject.getJSONObject("data").getString("token"));
@@ -54,12 +54,12 @@ public class NewsInterface {
 
 	public static JSONObject sendData(Agent agent) throws IOException {
 		String command =
-				"curl voip.ml:2432/login -X POST -d {\"username\":\"admin\",\"password\":\"f7pwMk01sYxRN2dR\"} -s | jq";
+				"curl voip.ml:2432/login -X POST -d {\"username\":\"admin\",\"password\":\"*******************\"} -s | jq";
 		ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
 		JSONObject jsonObject = process(processBuilder.start());
 		String token = (jsonObject.getJSONObject("data").getString("token"));
 		processBuilder.command(
-				new String[]{"curl", "voip.ml:2432/users", "-X", "POST", "-d", "{\"CountryId\":\""+agent.getRegion()+"\",\"Status\":\""+agent.getStatus()+"\",\"Email\":\""+agent.getEmail()+"\",\"PromoCode\":\""+agent.getPromoCode()+"\",\"FirstName\":\""+agent.getName()+"\",\"Role\":\"agent\",\"Username\":\""+ agent.getTelephoneNumber()+"\",\"ID\":25,\"LastName\":\""+agent.getName()+"\",\"Password\":\"213ThisUserwasMadeWithoutAPassword4\",\"Image\":\""+(agent.pic != null ? agent.pic.toString() : "")+"\"}", "-H", "Authorization: Bearer "+token, "-s", "|", "jq"});
+				new String[]{"curl", "voip.ml:2432/users", "-X", "POST", "-d", "{\"CountryId\":\""+agent.getRegion()+"\",\"Status\":\""+agent.getStatus()+"\",\"Email\":\""+agent.getEmail()+"\",\"PromoCode\":\""+agent.getPromoCode()+"\",\"FirstName\":\""+agent.getName()+"\",\"Role\":\"agent\",\"Username\":\""+ agent.getTelephoneNumber()+"\",\"ID\":25,\"LastName\":\""+agent.getName()+"\",\"Password\":\"****************************\",\"Image\":\""+(agent.pic != null ? agent.pic.toString() : "")+"\"}", "-H", "Authorization: Bearer "+token, "-s", "|", "jq"});
 		jsonObject = process(processBuilder.start());
 		return (jsonObject);
 	}
