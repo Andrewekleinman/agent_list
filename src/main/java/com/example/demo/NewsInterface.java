@@ -66,7 +66,7 @@ public class NewsInterface {
 
 	public static JSONObject upData(Agent agent) throws IOException {
 		String command =
-				"curl voip.ml:2432/login -X POST -d {\"username\":\"admin\",\"password\":\"f7pwMk01sYxRN2dR\"} -s | jq";
+				"curl voip.ml:2432/login -X POST -d {\"username\":\"admin\",\"password\":\"***************\"} -s | jq";
 		ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
 		JSONObject jsonObject = process(processBuilder.start());
 		String token = (jsonObject.getJSONObject("data").getString("token"));
